@@ -16,21 +16,21 @@ public class AmiService {
     @Autowired
     private AmiRepository amiRepository;
 
-    public Ami addAmi(Long joueurId, Long amiId) {
+    public Ami ajouterAmi(Long joueurId, Long amiId) {
         Joueur joueur = joueurRepository.findById(joueurId)
                 .orElseThrow(() -> new RuntimeException("Joueur introuvable"));
-        Joueur ami = joueurRepository.findById(amiId)
-                .orElseThrow(() -> new RuntimeException("Ami introuvable"));
 
-        Ami newAmi = new Ami();
-        newAmi.setJoueur(joueur);
-        newAmi.setAmi(ami);
+        Ami ami = new Ami();
+        ami.setJoueur(joueur);
+        ami.setId(amiId);
 
-        return amiRepository.save(newAmi);
+        return amiRepository.save(ami);
     }
 
-    public List<Joueur> getAmis(Long joueurId) {
-        return amiRepository.findAmisByJoueurId(joueurId);
-    }
+    public List<Ami> obtenirAmis(Long joueurId) {
+        Joueur joueur = joueurRepository.findById(joueurId)
+                .orElseThrow(() -> new RuntimeException("Joueur non trouvé avec l'ID : " + joueurId));
 
+        return joueur.getAmis();
+    }
 }

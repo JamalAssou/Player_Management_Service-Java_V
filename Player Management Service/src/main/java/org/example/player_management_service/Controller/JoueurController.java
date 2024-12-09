@@ -1,5 +1,6 @@
 package org.example.player_management_service.Controller;
 
+import org.example.player_management_service.DTO.JoueurDTO;
 import org.example.player_management_service.Model.Joueur;
 import org.example.player_management_service.Service.JoueurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,9 @@ public class JoueurController {
     private JoueurService joueurService;
 
     @PostMapping
-    public ResponseEntity<Joueur> creerJoueur(@RequestBody Joueur joueur) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(joueurService.creerJoueur(joueur));
+    public ResponseEntity<Joueur> creerJoueur(@RequestBody  JoueurDTO joueurDTO) {//@Valid
+        Joueur joueur = joueurService.creerJoueur(joueurDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(joueur);
     }
 
     @GetMapping("/{id}")
@@ -32,8 +34,8 @@ public class JoueurController {
     }
 
     @PutMapping("/{id}")
-    public Joueur updateJoueur(@PathVariable Long id, @RequestBody Joueur joueur) {
-        return joueurService.updateJoueur(id, joueur);
+    public Joueur updateJoueur(@PathVariable Long id, @RequestBody JoueurDTO joueurDTO) {
+        return joueurService.updateJoueur(id, joueurDTO);
     }
 
     @DeleteMapping("/{id}")

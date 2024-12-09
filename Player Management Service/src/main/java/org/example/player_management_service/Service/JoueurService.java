@@ -1,5 +1,6 @@
 package org.example.player_management_service.Service;
 
+import org.example.player_management_service.DTO.JoueurDTO;
 import org.example.player_management_service.Model.Joueur;
 import org.example.player_management_service.Repository.JoueurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,13 @@ public class JoueurService {
     @Autowired
     private JoueurRepository joueurRepository;
 
-    public Joueur creerJoueur(Joueur joueur) {
+    public Joueur creerJoueur(JoueurDTO joueurDTO) {
+        Joueur joueur = new Joueur();
+        joueur.setNom(joueurDTO.getNom());
+        joueur.setPseudonyme(joueurDTO.getPseudonyme());
+        joueur.setEmail(joueurDTO.getEmail());
+        joueur.setNiveau(joueurDTO.getNiveau());
+        joueur.setPointsTotaux(joueurDTO.getPointsTotaux());
         return joueurRepository.save(joueur);
     }
 
@@ -25,7 +32,7 @@ public class JoueurService {
         return joueurRepository.findAll();
     }
 
-    public Joueur updateJoueur(Long id, Joueur joueurDetails) {
+    public Joueur updateJoueur(Long id, JoueurDTO joueurDetails) {
         Joueur joueur = joueurRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Joueur introuvable"));
 
