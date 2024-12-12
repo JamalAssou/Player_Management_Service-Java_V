@@ -1,8 +1,8 @@
 package org.example.player_management_service.Service;
 
+import org.example.player_management_service.DAO.JoueurDAO;
 import org.example.player_management_service.DTO.JoueurDTO;
 import org.example.player_management_service.Model.Joueur;
-import org.example.player_management_service.Repository.JoueurRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,7 +25,7 @@ public class JoueurServiceTest {
     private JoueurService joueurService;
 
     @Mock
-    private JoueurRepository joueurRepository;
+    private JoueurDAO joueurDAO;
 
     @BeforeEach
     public void setUp() {
@@ -45,7 +46,7 @@ public class JoueurServiceTest {
         joueur.setNom("John");
         joueur.setPseudonyme("john123");
 
-        when(joueurRepository.save(joueur)).thenReturn(joueur);
+        when(joueurDAO.save(any(Joueur.class))).thenReturn(joueur);
 
         Joueur result = joueurService.creerJoueur(joueurDTO);
 
@@ -60,7 +61,7 @@ public class JoueurServiceTest {
         joueur.setNom("John");
         joueur.setPseudonyme("john123");
 
-        when(joueurRepository.findById(1L)).thenReturn(Optional.of(joueur));
+        when(joueurDAO.findById(1L)).thenReturn(Optional.of(joueur));
 
         Joueur result = joueurService.trouverJoueurParId(1L);
 
@@ -84,7 +85,7 @@ public class JoueurServiceTest {
         joueurs.add(joueur1);
         joueurs.add(joueur2);
 
-        when(joueurRepository.findAll()).thenReturn(joueurs);
+        when(joueurDAO.findAll()).thenReturn(joueurs);
 
         List<Joueur> result = joueurService.getAllJoueurs();
 
@@ -109,8 +110,8 @@ public class JoueurServiceTest {
         joueur.setNom("John Updated");
         joueur.setPseudonyme("john123updated");
 
-        when(joueurRepository.findById(1L)).thenReturn(Optional.of(joueur));
-        when(joueurRepository.save(joueur)).thenReturn(joueur);
+        when(joueurDAO.findById(1L)).thenReturn(Optional.of(joueur));
+        when(joueurDAO.save(any(Joueur.class))).thenReturn(joueur);
 
         Joueur result = joueurService.updateJoueur(1L, joueurDTO);
 
@@ -123,7 +124,7 @@ public class JoueurServiceTest {
         Joueur joueur = new Joueur();
         joueur.setId(1L);
 
-        when(joueurRepository.findById(1L)).thenReturn(Optional.of(joueur));
+        when(joueurDAO.findById(1L)).thenReturn(Optional.of(joueur));
 
         joueurService.deleteJoueur(1L);
 
